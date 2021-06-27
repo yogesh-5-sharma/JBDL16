@@ -86,7 +86,9 @@ public class SetExample {
 //        System.out.println(map.keySet());
 //        System.out.println(map.values());
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>(new PQComparator());
+        PriorityQueue<Integer> pq = new PriorityQueue<>((s1, s2) -> {
+            return s1-s2;
+        });
 
         pq.add(1);
         pq.add(3);
