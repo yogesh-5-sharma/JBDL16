@@ -10,6 +10,11 @@
 # Maven
 log/
 target/
+mytemp/
+.mvn
+mvnw
+mvnw.cmd
+.zip
 
 
 # Copyed from https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
