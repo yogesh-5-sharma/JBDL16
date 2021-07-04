@@ -1,0 +1,34 @@
+1. How to run maven jar file from cmd?
+
+For this, first we need to create a Manifest file.
+To create Manifest file in Maven add this maven-jar-plugin in pom.xml file.
+
+    <build>
+        <directory>mytemp</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.example.calculator.Calculator</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+link: https://stackoverflow.com/questions/9689793/cant-execute-jar-file-no-main-manifest-attribute
+
+2. How to use maven jar in non maven project?
+
+- [Imp point we missed] create your classes in a package
+- Creating the jar of your project either through lifecycle step or command line.
+- Add the jar to your project. File > Project Structures > Libraries > '+' icon, then add path to your jar
+
+3. When to use SOAP and when to use REST APIs?
+
+link: https://www.guru99.com/comparison-between-web-services.html

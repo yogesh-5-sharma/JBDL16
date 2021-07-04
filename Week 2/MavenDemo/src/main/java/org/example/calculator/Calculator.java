@@ -1,3 +1,5 @@
+package org.example.calculator;
+
 public class Calculator {
 
     int c;

@@ -1,5 +1,7 @@
 package com.example.filehandling;
 
+import org.example.calculator.Calculator;
+
 import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -108,7 +110,8 @@ public class FileHandlingExample {
 
         objectInputStream.close();
 
-        Calculator
+        Calculator calculator = new Calculator();
+        int sum = calculator.sum(1,2);
     }
 
     public static void readOverNetwork() throws IOException {
