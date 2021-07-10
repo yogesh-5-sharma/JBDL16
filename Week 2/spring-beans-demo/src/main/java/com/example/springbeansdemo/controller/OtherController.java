@@ -3,25 +3,47 @@ package com.example.springbeansdemo.controller;
 import com.sun.net.httpserver.Headers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.ServerRequest;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.Map;
 
 @RestController
 public class OtherController {
 
-    @Autowired
+//    @Autowired
     ApplicationContext applicationContext;
 
-    @Autowired
+//    @Autowired
     Utils utils;
 
+    int b;
+
+//    public OtherController() {}
+
+    @Autowired
+    public OtherController(ApplicationContext applicationContext, Utils utils, Integer a) {
+        this.applicationContext = applicationContext;
+        this.utils = utils;
+        this.b=a;
+        System.out.println(b);
+    }
+
+//    @Autowired
+    public OtherController(ApplicationContext applicationContext, Utils utils) {
+        this.applicationContext = applicationContext;
+        this.utils = utils;
+        this.b=10;
+    }
+
     @GetMapping("/bye")
-    public User bye(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity<User> bye(@RequestHeader Map<String, String> headers) {
 //        Utils utils = myConfig.getUtils();
 //        System.out.println("In OtherController");
 //        System.out.println(utils);
@@ -31,7 +53,10 @@ public class OtherController {
         System.out.println(utils);
 //        System.out.println(headers);
 //
-        return new User("ABC", 10);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("BYE-HEADER", "in other controller");
+
+        return new ResponseEntity<>(new User("ABC", 10), responseHeaders, HttpStatus.FORBIDDEN);
     }
 
     @GetMapping("/printbeans")
