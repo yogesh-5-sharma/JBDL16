@@ -1,22 +1,38 @@
 package com.example.springjpa.repository;
 
+import com.example.springjpa.model.CompositePrimaryKey;
 import com.example.springjpa.model.Employee;
 import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
+    @Query("FROM Employee e WHERE e.name = :myname")
+    List<Employee> findByEmployeeNameUsingJPQL(String myname);
+
+    @Query(value = "SELECT * FROM my_employee WHERE name= ?1", nativeQuery = true)
+    List<Employee> findByEmployeeNameUsingNativeSQL(String myname);
+
+    List<Employee> findByNameAndDob(String name, Date dob);
+
+    List<Employee> findFirst2ByName(String name, Sort sort);
+
+    List<Employee> findDistinctByName(String name);
+
+    List<Employee> findByNameStartingWith(String prefix);
 }
 
 // Core Hibernate
