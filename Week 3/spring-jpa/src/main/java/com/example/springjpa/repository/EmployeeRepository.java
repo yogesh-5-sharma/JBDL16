@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -33,6 +34,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findDistinctByName(String name);
 
     List<Employee> findByNameStartingWith(String prefix);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update my_employee set salary = :newSalary where id = :eid", nativeQuery = true)
+    void updateSalary(Integer newSalary, Integer eid);
 }
 
 // Core Hibernate

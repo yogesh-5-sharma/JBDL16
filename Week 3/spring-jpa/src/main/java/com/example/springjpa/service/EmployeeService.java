@@ -77,4 +77,8 @@ public class EmployeeService {
     public List<Employee> getByName(String employeeName) {
         return employeeRepository.findByEmployeeNameUsingJPQL(employeeName);
     }
+
+    public void updateSalary(Integer newSalary, Integer eid) {
+        employeeRepository.updateSalary(newSalary, eid);
+    }
 }

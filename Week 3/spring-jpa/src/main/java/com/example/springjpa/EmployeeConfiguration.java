@@ -33,9 +33,11 @@ public class EmployeeConfiguration {
 
 //            List<Employee> employees = employeeRepository.findByNameAndDob("ABC", Date.valueOf("1990-12-13"));
 //            List<Employee> employees = employeeRepository.findFirst2ByName("ABC", Sort.by("dob"));
-            List<Employee> employees = employeeRepository.findByNameStartingWith("AB");
+//            List<Employee> employees = employeeRepository.findByNameStartingWith("AB");
 
-            System.out.println(employees);
+//            System.out.println(employees);
+
+            employeeRepository.updateSalary(4000, 5);
 
         };
     }
