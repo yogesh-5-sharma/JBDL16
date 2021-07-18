@@ -45,7 +45,7 @@ public class Location {
     @Enumerated(EnumType.STRING)
     private Agency agency;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JsonManagedReference
     private List<Slot> slots;
 }

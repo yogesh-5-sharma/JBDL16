@@ -16,6 +16,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString
 @Table(name = "slots")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -23,13 +24,16 @@ import java.sql.Date;
 )
 public class Slot {
 
+    @Version
+    private Integer version;
+
     @Id
     @GeneratedValue
     private Integer slotId;
 
     // first thing refers to class, second thing refers to other class
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
 //    @JsonBackReference
     private Location location;
@@ -41,7 +45,7 @@ public class Slot {
     private Vaccine vaccine;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     private Integer count;
 
     @Enumerated(EnumType.STRING)

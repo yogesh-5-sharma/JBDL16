@@ -10,7 +10,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.swing.text.html.Option;
 import java.sql.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Configuration
 public class Config {
@@ -44,6 +47,14 @@ public class Config {
                     .build()
             );
 
+            locationRepository.save(Location.builder()
+                    .centreName("MNO")
+                    .address("MNO somthing")
+                    .agency(Agency.PRIVATE)
+                    .pinCode(110013)
+                    .build()
+            );
+
             slotRepository.save(Slot.builder()
                     .location(locationRepository.getById(1))
                     .vaccine(Vaccine.COVISHIELD)
@@ -55,10 +66,28 @@ public class Config {
 
             slotRepository.save(Slot.builder()
                     .location(locationRepository.getById(1))
-                    .vaccine(Vaccine.COVAXIN)
+                    .vaccine(Vaccine.COVISHIELD)
                     .ageLimit(AgeLimit.AGE45toAbove)
                     .count(30)
                     .date(Date.valueOf("2021-07-18"))
+                    .build()
+            );
+
+            slotRepository.save(Slot.builder()
+                    .location(locationRepository.getById(2))
+                    .vaccine(Vaccine.COVISHIELD)
+                    .ageLimit(AgeLimit.AGE18toAbove)
+                    .count(30)
+                    .date(Date.valueOf("2021-08-19"))
+                    .build()
+            );
+
+            slotRepository.save(Slot.builder()
+                    .location(locationRepository.getById(2))
+                    .vaccine(Vaccine.COVISHIELD)
+                    .ageLimit(AgeLimit.AGE18toAbove)
+                    .count(30)
+                    .date(Date.valueOf("2021-10-19"))
                     .build()
             );
 
@@ -71,10 +100,21 @@ public class Config {
                     .build()
             );
 
+            slotRepository.save(Slot.builder()
+                    .location(locationRepository.getById(3))
+                    .vaccine(Vaccine.SPUTNIKV)
+                    .ageLimit(AgeLimit.AGE18toAbove)
+                    .count(1)
+                    .date(Date.valueOf("2021-07-18"))
+                    .build()
+            );
+
+
+
             userRepository.save(User.builder()
                     .name("Pikachu1")
                     .address("Palet Town")
-                    .dateOfBirth(Date.valueOf("1998-07-11"))
+                    .dateOfBirth(Date.valueOf("1950-07-11"))
                     .governmentId("PAN CARD: adkfjdf1")
                     .phoneNumber("1122334455")
                     .build()
@@ -83,7 +123,7 @@ public class Config {
             userRepository.save(User.builder()
                     .name("Pikachu2")
                     .address("Palet Town")
-                    .dateOfBirth(Date.valueOf("1998-07-11"))
+                    .dateOfBirth(Date.valueOf("1970-07-11"))
                     .governmentId("PAN CARD: adkfjdf2")
                     .phoneNumber("1122334456")
                     .build()
@@ -92,7 +132,7 @@ public class Config {
             userRepository.save(User.builder()
                     .name("Pikachu3")
                     .address("Palet Town")
-                    .dateOfBirth(Date.valueOf("1998-07-11"))
+                    .dateOfBirth(Date.valueOf("1990-07-11"))
                     .governmentId("PAN CARD: adkfjdf3")
                     .phoneNumber("1122334457")
                     .build()
@@ -101,12 +141,15 @@ public class Config {
             userRepository.save(User.builder()
                     .name("Pikachu4")
                     .address("Palet Town")
-                    .dateOfBirth(Date.valueOf("1998-07-11"))
+                    .dateOfBirth(Date.valueOf("2010-07-11"))
                     .governmentId("PAN CARD: adkfjdf4")
                     .phoneNumber("1122334458")
                     .build()
             );
 
+//            List<Slot> slot = slotRepository.findByLocationAndDate(locationRepository.getById(3), Date.valueOf("2021-07-18"));
+//
+//            System.out.println(slot);
         };
     }
 }

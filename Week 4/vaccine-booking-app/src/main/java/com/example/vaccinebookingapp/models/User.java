@@ -1,5 +1,6 @@
 package com.example.vaccinebookingapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import lombok.*;
 
 import javax.persistence.*;
