@@ -87,7 +87,16 @@ public class Config {
                     .vaccine(Vaccine.COVISHIELD)
                     .ageLimit(AgeLimit.AGE18toAbove)
                     .count(30)
-                    .date(Date.valueOf("2021-10-19"))
+                    .date(Date.valueOf("2021-07-24"))
+                    .build()
+            );
+
+            slotRepository.save(Slot.builder()
+                    .location(locationRepository.getById(2))
+                    .vaccine(Vaccine.COVISHIELD)
+                    .ageLimit(AgeLimit.AGE18toAbove)
+                    .count(30)
+                    .date(Date.valueOf("2021-07-25"))
                     .build()
             );
 
@@ -147,8 +156,8 @@ public class Config {
                     .build()
             );
 
-//            List<Slot> slot = slotRepository.findByLocationAndDate(locationRepository.getById(3), Date.valueOf("2021-07-18"));
-//
+            List<Slot> slot = slotRepository.findByLocationAndDate(locationRepository.getById(3), Date.valueOf("2021-07-18"));
+
 //            System.out.println(slot);
         };
     }

@@ -16,6 +16,6 @@ public interface SlotRepository extends JpaRepository<Slot, Integer> {
     @Query("FROM Slot s WHERE s.date = :date")
     List<Slot> findSlotsByDate(Date date);
 
-    @Query("FROM Slot s WHERE s.location = :location AND s.date = :date")
+//    @Query("FROM Slot s WHERE s.location = :location AND s.date = :date")
     List<Slot> findByLocationAndDate(Location location, Date date);
 }

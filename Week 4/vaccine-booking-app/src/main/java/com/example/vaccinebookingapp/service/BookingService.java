@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +32,8 @@ public class BookingService {
 
     @Autowired
     SlotService slotService;
+
+//    Map<String, Booking> // 1000
 
     @Transactional
     @Retryable(StaleObjectStateException.class)
@@ -186,7 +185,7 @@ public class BookingService {
 
     // cancel all bookings for todays whose status is PENDING, and user didn't came for vaccine
     // and shifting those vaccines for tomorrow
-    @Scheduled(cron = "0 41 22 * * *")
+    @Scheduled(cron = "0 28 20 * * *")
     @Async
     public void cancelBookingForToday() {
 
@@ -203,10 +202,42 @@ public class BookingService {
 
         bookingRepository.saveAll(pendingBookings);
 
-//        List<Slot> slots = slotService.getSlotsByDate(todaysDate);
-//        for(Slot slot: slots) {
-//            List<Slot> nextSlot = slotService.getSlotByLocationAndDate(slot.getLocation(), slot.getDate());
-//        }
+        List<Slot> slots = slotService.getSlotsByDate(todaysDate);
+        for(Slot slot: slots) {
+            if(slot.getCount() == 0) {continue;}
+            Date nextDate = addDays(todaysDate, 1);
+            List<Slot> nextSlot = slotService.getSlotByLocationAndDate(slot.getLocation(), nextDate);
+
+            if(nextSlot.size() == 0) {
+                Slot newSlot = Slot.builder()
+                        .location(slot.getLocation())
+                        .vaccine(slot.getVaccine())
+                        .date(nextDate)
+                        .count(slot.getCount())
+                        .ageLimit(slot.getAgeLimit())
+                        .build();
+                slotService.createOfUpdateSlot(newSlot);
+                slot.setCount(0);
+                slotService.createOfUpdateSlot(slot);
+            } else if (nextSlot.size() != 1) {
+                throw new IllegalArgumentException("Illegal State having next Slots size="+ nextSlot.size());
+            } else {
+                Slot nextDaySlot = nextSlot.get(0);
+                if(nextDaySlot.getVaccine() == slot.getVaccine()) {
+                    nextDaySlot.setCount(nextDaySlot.getCount() + slot.getCount());
+                    slotService.createOfUpdateSlot(nextDaySlot);
+                    slot.setCount(0);
+                    slotService.createOfUpdateSlot(slot);
+                }
+            }
+        }
+    }
+
+    private Date addDays(Date date, int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, days);
+        return new Date(calendar.getTimeInMillis());
     }
 
     private boolean ageIsCorrect(User user, Slot slot) {
@@ -229,9 +260,9 @@ public class BookingService {
 
 
     public static void main(String[] args) {
-        LocalDate ld = Date.valueOf("2021-07-15").toLocalDate();
-        LocalDate nd = Date.valueOf("2021-07-18").toLocalDate();
+//        Date date = Date.valueOf("2021-07-24");
+//        Date nextDate = addDays(date, 1);
+//        System.out.println(nextDate.toString());
 
-        System.out.println(nd.compareTo(ld));
     }
 }

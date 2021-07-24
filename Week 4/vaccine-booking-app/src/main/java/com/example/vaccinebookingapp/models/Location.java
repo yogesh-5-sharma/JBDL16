@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Builder
 @Entity
 @Table(name = "locations")
@@ -45,7 +45,7 @@ public class Location {
     @Enumerated(EnumType.STRING)
     private Agency agency;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
 //    @JsonManagedReference
     private List<Slot> slots;
 }
