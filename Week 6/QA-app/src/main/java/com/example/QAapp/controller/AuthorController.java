@@ -24,7 +24,7 @@ public class AuthorController {
     @GetMapping("/profile")
     public Author getAuthorById(Principal principal) {
         String username = principal.getName();
-        return authorService.getAuthorById(username);
+        return authorService.getAuthorByUsername(username);
     }
 
     @PostMapping

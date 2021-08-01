@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import static com.example.QAapp.security.SystemUserPermissions.*;
 
 public enum SystemUserRoles {
-    Author(Set.of(POSTING.name(), ANSWER.name())),
+    AUTHOR(Set.of(POSTING.name(), ANSWER.name())),
     ADMIN(Set.of(POSTING.name(), ANSWER.name(), BLOCK.name(), FLAG.name())),
     ASSISTANT(Set.of(FLAG.name()));
 

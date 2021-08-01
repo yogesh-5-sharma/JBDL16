@@ -1,9 +1,14 @@
 package com.example.QAapp.models;
 
 import com.example.QAapp.security.SystemUser;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class Author {
 
     private Date dob;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private SystemUser systemUser;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)

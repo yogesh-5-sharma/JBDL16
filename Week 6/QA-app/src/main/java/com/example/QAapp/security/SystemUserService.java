@@ -40,7 +40,7 @@ public class SystemUserService extends DefaultOAuth2UserService implements UserD
         if(systemUserRepository.findByUsername(username).isEmpty()) {
             SystemUser systemUser = SystemUser.builder()
                     .username(username)
-                    .role(SystemUserRoles.Author)
+                    .role(SystemUserRoles.AUTHOR)
                     .provider(AuthProvider.valueOf(userRequest.getClientRegistration().getRegistrationId()))
                     .isAccountNonExpired(true)
                     .isAccountNonLocked(true)

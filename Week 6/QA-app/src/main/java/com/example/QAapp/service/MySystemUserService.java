@@ -15,4 +15,8 @@ public class MySystemUserService {
         return systemUserRepository.findByUsername(username)
                 .orElseThrow();
     }
+
+    public void createSystemUser(SystemUser systemUser) {
+        systemUserRepository.save(systemUser);
+    }
 }

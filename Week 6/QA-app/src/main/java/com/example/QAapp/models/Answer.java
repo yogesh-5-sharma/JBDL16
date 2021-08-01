@@ -1,5 +1,9 @@
 package com.example.QAapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -18,13 +22,15 @@ public class Answer {
 
     @Id
     @GeneratedValue
-    private int id;
+    private int answerId;
 
     private String text;
 
     @ManyToOne
+    @JsonIgnore
     private Question question;
 
     @ManyToOne
+    @JsonIgnoreProperties({"authorId", "address", "dob", "systemUser", "questionList", "answerList"})
     private Author author;
 }

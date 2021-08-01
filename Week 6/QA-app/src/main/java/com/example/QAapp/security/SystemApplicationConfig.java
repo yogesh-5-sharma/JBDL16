@@ -1,22 +1,13 @@
 package com.example.QAapp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.proxy.NoOp;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.example.QAapp.security.SystemUserRoles.*;
 
@@ -36,9 +27,20 @@ public class SystemApplicationConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/author").hasRole(ADMIN.name())
-                .antMatchers(HttpMethod.GET, "/author/profile").hasRole(Author.name())
+                .antMatchers(HttpMethod.GET, "/author/profile").hasRole(AUTHOR.name())
                 .antMatchers(HttpMethod.POST, "/author").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/author").hasRole(Author.name())
+                .antMatchers(HttpMethod.DELETE, "/author").hasRole(AUTHOR.name())
+
+                .antMatchers(HttpMethod.PUT, "/questions/*/flag").hasAuthority(SystemUserPermissions.FLAG.name())
+                .antMatchers(HttpMethod.POST, "/questions").hasAnyRole(AUTHOR.name(), ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/questions/**").hasAnyRole(AUTHOR.name(), ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/questions/**").hasAnyRole(AUTHOR.name(), ADMIN.name())
+
+                .antMatchers(HttpMethod.POST, "/answers").hasRole(AUTHOR.name())
+                .antMatchers(HttpMethod.PUT, "/answers/**").hasRole(AUTHOR.name())
+                .antMatchers(HttpMethod.DELETE, "/answers/**").hasAnyRole(AUTHOR.name(), ADMIN.name())
+
+                .antMatchers("/management/**").hasRole(ADMIN.name())
             .anyRequest()
             .authenticated()
             .and()
